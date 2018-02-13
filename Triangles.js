@@ -1,5 +1,6 @@
+
 var triangle = (function(){
-var swaps = [["m/s","meters/second"],["hr","hour"],["min","minute"],["km","kilometer"],["sec","second"],["m/s/s","meters/second/second"]];
+var swaps = [["m/s","meters/second"],["hr","hour"],["min","minute"],["km","kilometer"],["sec","second"],["m/s/s","meters/second/second"],["kg","kilogram"]];
 var conversions = {};
 function add(from,to,f){
   conversions[from+"=>"+to]=f;
@@ -7,9 +8,12 @@ function add(from,to,f){
 add("minute","second",a=>a*60);
 add("hour","second",a=>a*3600);
 add("kilometer","meter",a=>a/1000);
+add("kilogram","kilogram",a=>a);
 function deunit(d){
   swaps.forEach((a)=>{a[0]===d.type?d.type=a[1]:d.type=d.type;}); if(d.type!="second"&&d.type!="newton"&&d.type!="meter"&&d.type!="meters/second"&&d.type!="meters/second/second"){
     var a = d.c;
+    if(d.c==="mass")a="kilogram";
+    if(d.c==="force")a="newton";
     if(d.c==="time")a="second";
     if(d.c==="velocity")a="meters/second";
     if(d.c==="position")a="meter";
@@ -72,4 +76,28 @@ var acc = {
     return new unit("m/s/s",(vf-vi)/t,"acceleration");
   }
 };
-return {acc:acc,vel:vel,unit:unit}})();
+var fma = {
+  f:(m,a)=>{
+    m = deunit(m);
+    a = deunit(a);
+    return new unit("newton",m*a,"force");
+  },
+  m:(f,a)=>{
+    f=deunit(f);
+    a=deunit(a);
+    return new unit("kg",f/a,"mass");
+  },
+  a:(f,m)=>{
+    f=deunit(f);
+    m=deunit(m);
+    return new unit("m/s",f/m,"acceleration");
+  }
+};
+return {acc:acc,vel:vel,fma:fma,unit:unit}})();
+
+
+
+/*
+*ex:
+*triangle.vel.x(new triangle.unit("m/s",5,"velocity"),new triangle.unit("sec",32.3,"time"));
+*/
