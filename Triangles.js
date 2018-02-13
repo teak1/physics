@@ -29,47 +29,47 @@ unit.prototype.toString=function(){
   return this.value.toString().substring(0,5)+" "+this.type;
 }
 var vel = {
-  x:function(v,t){
+  x:(v,t)=>{
     v=deunit(v);
     t=deunit(t);
     return new unit("meter",v*t,"position");
   },
-  v:function(x,t){
+  v:(x,t)=>{
     x=deunit(x);
     t=deunit(t);
     return new unit("meters/second",x/t,"velocity");
   },
-  t:function(x,v){
+  t:(x,v)=>{
     x=deunit(x);
     v=deunit(v);
     return new unit("second",x/v,"time");
   }
 };
-console.log(document.body.innerHTML=Object.keys(vel));
+//console.log(document.body.innerHTML=Object.keys(vel));
 var acc = {
-  vf:function(vi,t,a){
+  vf:(vi,t,a)=>{
     vi=deunit(vi);
     t=deunit(t);
     a=deunit(a);
     return new unit("meters/second/second",a*t+vi,"velocity");
   },
-  vi:function(vf,t,a){
+  vi:(vf,t,a)=>{
     vf=deunit(vf);
     t=deunit(t);
     a=deunit(a);
     return new unit("meters/second/second",-(a*t-vf),"velocity");
   },
-  t:function(vf,vi,a){
+  t:(vf,vi,a)=>{
     vf=deunit(vf);
     vi=deunit(vi);
     a=deunit(a);
     return new unit("second",(vf-vi)/t,"time");  
   },
-  a:function(vf,vi,t){
+  a:(vf,vi,t)=>{
     vf=deunit(vf);
     vi=deunit(vi);
     t=deunit(t);
     return new unit("m/s/s",(vf-vi)/t,"acceleration");
   }
 };
-return {acc:acc,vel:vel}})();
+return {acc:acc,vel:vel,unit:unit}})();
