@@ -61,7 +61,7 @@ var acc = {
     vf=deunit(vf);
     t=deunit(t);
     a=deunit(a);
-    return new unit("meters/second/second",-(a*t-vf),"velocity");
+    return new unit("meters/second/second",vf+a*t,"velocity");
   },
   t:(vf,vi,a)=>{
     vf=deunit(vf);
@@ -94,8 +94,6 @@ var fma = {
   }
 };
 return {acc:acc,vel:vel,fma:fma,unit:unit}})();
-
-
 
 /*
 *ex:
